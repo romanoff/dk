@@ -7,6 +7,6 @@ import (
 
 func main() {
 	fh := gofh.Init()
-	fh.HandleCommand("init :dbname", CreateConfig)
+	fh.HandleCommand("init :source", CreateConfig)
 	fh.Parse(os.Args[1:])	
 }
