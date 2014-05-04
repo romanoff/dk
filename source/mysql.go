@@ -7,7 +7,14 @@ type Mysql struct {
 	Database string
 }
 
-func (self *Mysql) CreateDump(config map[string]string) error {
+func (self *Mysql) Setup(config *Config) {
+	self.User = config.User
+	self.Password = config.Password
+	self.Host = config.Host
+	self.Database = config.Database
+}
+
+func (self *Mysql) CreateDump(dumpName string) error {
 	return nil
 }
 

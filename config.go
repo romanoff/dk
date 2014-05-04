@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/BurntSushi/toml"
+	"github.com/romanoff/dk/source"
 	"io/ioutil"
 	"os"
 )
@@ -15,14 +16,7 @@ func CreateConfig(options map[string]string) {
 }
 
 type Config struct {
-	Sources map[string]source
-}
-
-type source struct {
-	Name     string
-	Password string
-	Host     string
-	Database string
+	Sources map[string]source.Config
 }
 
 func ReadConfig() (*Config, error) {
@@ -36,4 +30,11 @@ func ReadConfig() (*Config, error) {
 		return nil, err
 	}
 	return conf, nil
+}
+
+func CheckConfig() {
+	if config == nil {
+		fmt.Println(".dk config is missing")
+	}
+	os.Exit(1)
 }

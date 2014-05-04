@@ -1,12 +1,14 @@
 package main
 
 import (
+	"github.com/romanoff/dk/source"
 	"github.com/romanoff/gofh"
 	"os"
 )
 
 type Source interface {
-	CreateDump() error
+	Setup(*source.Config)
+	CreateDump(string) error
 	ApplyDump(path string) error
 }
 
