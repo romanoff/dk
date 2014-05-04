@@ -13,5 +13,6 @@ type Source interface {
 func main() {
 	fh := gofh.Init()
 	fh.HandleCommand("init :source", CreateConfig)
+	fh.HandleCommand("create :name", CreateDump)
 	fh.Parse(os.Args[1:])
 }
