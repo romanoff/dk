@@ -15,7 +15,7 @@ This is an example of `.dk` configuration file. It specifies data source (in thi
 
 Commands:
 ---------
-`dk init <dbname>` - Creates datakeeper config after couple questions
+`dk init <source>` - Creates datakeeper config after couple questions
 `dk config` - Show datakeeper configuration
 `dk create <name>` - Creates database dump and stores it with specified name
 `dk list` -> List all local dumps

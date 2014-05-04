@@ -5,6 +5,11 @@ import (
 	"os"
 )
 
+type Source interface {
+	CreateDump(config map[string]string) (error)
+	ApplyDump(config map[string]string) (error)
+}
+
 func main() {
 	fh := gofh.Init()
 	fh.HandleCommand("init :source", CreateConfig)
