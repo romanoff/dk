@@ -6,12 +6,12 @@ import (
 )
 
 type Source interface {
-	CreateDump(config map[string]string) (error)
-	ApplyDump(config map[string]string) (error)
+	CreateDump() error
+	ApplyDump(path string) error
 }
 
 func main() {
 	fh := gofh.Init()
 	fh.HandleCommand("init :source", CreateConfig)
-	fh.Parse(os.Args[1:])	
+	fh.Parse(os.Args[1:])
 }

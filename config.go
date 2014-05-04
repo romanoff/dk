@@ -7,7 +7,7 @@ import (
 )
 
 func CreateConfig(options map[string]string) {
-	perm  := os.FileMode(0664)
+	perm := os.FileMode(0664)
 	ioutil.WriteFile(".dk", []byte{}, perm)
 	fmt.Println("dk config has been created")
 }
