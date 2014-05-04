@@ -10,7 +10,10 @@ type Source interface {
 	ApplyDump(path string) error
 }
 
+var config *Config
+
 func main() {
+	config, _ = ReadConfig()
 	fh := gofh.Init()
 	fh.HandleCommand("init :source", CreateConfig)
 	fh.HandleCommand("create :name", CreateDump)
