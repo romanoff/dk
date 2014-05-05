@@ -5,6 +5,8 @@ import (
 	"github.com/romanoff/dk/source"
 	"os"
 	"os/exec"
+	"io/ioutil"
+	"strings"
 )
 
 var sourceRegistry map[string]Source = map[string]Source{
@@ -84,5 +86,15 @@ func UnarchiveBundle(name string, block func()) {
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
+	}
+}
+
+func ListDumps(options map[string]string) {
+	files, _ := ioutil.ReadDir(".dklocal/")
+	for _, f := range files {
+		bundle := f.Name()
+		if strings.HasSuffix(bundle, ".tar.bz2") {
+			fmt.Println(strings.Replace(bundle, ".tar.bz2", "", 1))
+		}
 	}
 }

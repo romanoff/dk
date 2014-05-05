@@ -20,5 +20,6 @@ func main() {
 	fh.HandleCommand("init :source", CreateConfig)
 	fh.HandleCommand("create :name", CreateDump)
 	fh.HandleCommand("apply :name", ApplyDump)
+	fh.HandleCommand("list", ListDumps)
 	fh.Parse(os.Args[1:])
 }
