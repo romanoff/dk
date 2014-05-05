@@ -38,8 +38,49 @@ func CreateDump(options map[string]string) {
 }
 
 func ArchiveBundle(name string) {
-	cmd := exec.Command("tar", "--remove-files", "-cjf", ".dklocal/"+name+".tar.bz2", ".dklocal/"+name)
+	cmd := exec.Command("tar", "--remove-files", "-cjf", name+".tar.bz2", name)
+	cmd.Dir = ".dklocal"
 	err := cmd.Run()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}
+
+func ApplyDump(options map[string]string) {
+	name := options["name"]
+	if name == "" {
+		ShowUsage()
+		return
+	}
+	CheckConfig()
+	UnarchiveBundle(name, func() {
+		for sourceName, conf := range config.Sources {
+			source := sourceRegistry[sourceName]
+			if source != nil {
+				path := fmt.Sprintf(".dklocal/%v/%v", name, sourceName)
+				// TODO: Check if this path exists
+				source.Setup(&conf)
+				err := source.ApplyDump(path)
+				if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+				}
+			}
+		}
+	})
+}
+
+func UnarchiveBundle(name string, block func()) {
+	cmd := exec.Command("tar", "-xf", name+".tar.bz2")
+	cmd.Dir = ".dklocal"
+	err := cmd.Run()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	block()
+	err = os.RemoveAll(".dklocal/" + name)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)

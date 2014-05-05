@@ -37,5 +37,29 @@ func (self *Mysql) CreateDump(path string) error {
 }
 
 func (self *Mysql) ApplyDump(path string) error {
+	emptySchemaCommand := fmt.Sprintf("-u %v -p%v --host %v -e", self.Name, self.Password, self.Host)
+	query := fmt.Sprintf("drop schema if exists %v;create schema %v;", self.Database, self.Database)
+	params := strings.Split(emptySchemaCommand, " ")
+	params = append(params, query)
+	clearCommand := exec.Command("mysql", params...)
+	err := clearCommand.Run()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	sqlContent, err := ioutil.ReadFile(path + "/dump.sql")
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	applyCommand := fmt.Sprintf("-u %v -p%v --host %v --database %v -e", self.Name, self.Password, self.Host, self.Database)
+	values := strings.Split(applyCommand, " ")
+	values = append(values, string(sqlContent))
+	cmd := exec.Command("mysql", values...)
+	err = cmd.Run()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 	return nil
 }
