@@ -35,6 +35,6 @@ func ReadConfig() (*Config, error) {
 func CheckConfig() {
 	if config == nil {
 		fmt.Println(".dk config is missing")
+		os.Exit(1)
 	}
-	os.Exit(1)
 }
