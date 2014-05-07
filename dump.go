@@ -3,9 +3,9 @@ package main
 import (
 	"fmt"
 	"github.com/romanoff/dk/source"
+	"io/ioutil"
 	"os"
 	"os/exec"
-	"io/ioutil"
 	"strings"
 )
 
