@@ -1,7 +1,6 @@
 package source
 
 import (
-	"bytes"
 	"fmt"
 	"io/ioutil"
 	"os"
@@ -48,7 +47,7 @@ func (self *Mysql) ApplyDump(path string) error {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	sqlContent, err := ioutil.ReadFile(path + "/dump.sql")
+	sqlFile, err := os.Open(path + "/dump.sql")
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
@@ -56,15 +55,7 @@ func (self *Mysql) ApplyDump(path string) error {
 	applyCommand := fmt.Sprintf("-u %v -p%v --host %v --database %v", self.Name, self.Password, self.Host, self.Database)
 	values := strings.Split(applyCommand, " ")
 	cmd := exec.Command("mysql", values...)
-	stdin, err := cmd.StdinPipe()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
-	}
-	var b bytes.Buffer
-	b.Write(sqlContent)
-	b.WriteTo(stdin)
-	err = stdin.Close()
+	cmd.Stdin = sqlFile
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
