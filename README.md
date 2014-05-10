@@ -5,10 +5,10 @@ DataKeeper allows you to easily create backups of data and restore them. It supp
 ```toml
 [sources]
   [sources.mysql]
-  name=root
-  password=password
-  host=localhost
-  database=blog_development
+  name="root"
+  password="password"
+  host="localhost"
+  database="blog_development"
 ```
 
 This is an example of `.dk` configuration file. It specifies data source (in this case mysql database). Here are commands you can use to work with local data:
