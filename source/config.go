@@ -5,4 +5,5 @@ type Config struct {
 	Password string
 	Host     string
 	Database string
+	Paths []string
 }

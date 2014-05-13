@@ -11,6 +11,7 @@ import (
 
 var sourceRegistry map[string]Source = map[string]Source{
 	"mysql": &source.Mysql{},
+	"fs": &source.Fs{},
 }
 
 func CreateDump(options map[string]string) {
