@@ -1,11 +1,10 @@
 package source
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"os/exec"
-	"strings"
-	"errors"
 	"path"
 )
 
@@ -52,11 +51,26 @@ func (self *Mysql) CreateDump(dumpDir string) error {
 }
 
 func (self *Mysql) ApplyDump(path string) error {
-	emptySchemaCommand := fmt.Sprintf("-u %v -p%v --host %v -e", self.Name, self.Password, self.Host)
-	query := fmt.Sprintf("drop schema if exists %v;create schema %v;", self.Database, self.Database)
-	params := strings.Split(emptySchemaCommand, " ")
-	params = append(params, query)
-	clearCommand := exec.Command("mysql", params...)
+	args := []string{}
+
+	if self.Name != "" {
+		args = append(args, "-u", self.Name)
+	}
+	if self.Password != "" {
+		args = append(args, fmt.Sprintf("-p%v", self.Password))
+	}
+	if self.Host != "" {
+		args = append(args, "--host", self.Host)
+	}
+
+	if self.Database == "" {
+		return errors.New("Missing database name")
+	} else {
+		args = append(args, "-e", fmt.Sprintf("drop schema if exists %v;create schema %v;", self.Database, self.Database))
+	}
+
+	clearCommand := exec.Command("mysql", args...)
+
 	err := clearCommand.Run()
 	if err != nil {
 		fmt.Println(err)
@@ -67,9 +81,25 @@ func (self *Mysql) ApplyDump(path string) error {
 		fmt.Println(err)
 		os.Exit(1)
 	}
-	applyCommand := fmt.Sprintf("-u %v -p%v --host %v --database %v", self.Name, self.Password, self.Host, self.Database)
-	values := strings.Split(applyCommand, " ")
-	cmd := exec.Command("mysql", values...)
+	args = []string{}
+
+	if self.Name != "" {
+		args = append(args, "-u", self.Name)
+	}
+	if self.Password != "" {
+		args = append(args, fmt.Sprintf("-p%v", self.Password))
+	}
+	if self.Host != "" {
+		args = append(args, "--host", self.Host)
+	}
+
+	if self.Database == "" {
+		return errors.New("Missing database name")
+	} else {
+		args = append(args, "--database", self.Database)
+	}
+
+	cmd := exec.Command("mysql", args...)
 	cmd.Stdin = sqlFile
 	if err != nil {
 		fmt.Println(err)
