@@ -2,10 +2,11 @@ package source
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 	"strings"
+	"errors"
+	"path"
 )
 
 type Mysql struct {
@@ -22,18 +23,32 @@ func (self *Mysql) Setup(config *Config) {
 	self.Database = config.Database
 }
 
-func (self *Mysql) CreateDump(path string) error {
-	dumpCommand := fmt.Sprintf("-u %v -p%v --host %v %v", self.Name, self.Password, self.Host, self.Database)
-	values := strings.Split(dumpCommand, " ")
-	cmd := exec.Command("mysqldump", values...)
-	output, err := cmd.Output()
-	if err != nil {
-		fmt.Println(err)
-		os.Exit(1)
+func (self *Mysql) CreateDump(dumpDir string) error {
+	args := []string{}
+
+	if self.Name != "" {
+		args = append(args, "-u", self.Name)
 	}
-	perm := os.FileMode(0644)
-	ioutil.WriteFile(path+"/dump.sql", output, perm)
-	return nil
+	if self.Password != "" {
+		args = append(args, fmt.Sprintf("-p%v", self.Password))
+	}
+	if self.Host != "" {
+		args = append(args, "--host", self.Host)
+	}
+	if self.Database == "" {
+		return errors.New("Missing database name")
+	}
+	args = append(args, self.Database)
+
+	out, err := os.OpenFile(path.Join(dumpDir, "dump.sql"), os.O_RDWR|os.O_CREATE|os.O_TRUNC, 0644)
+	if err != nil {
+		return err
+	}
+
+	cmd := exec.Command("mysqldump", args...)
+	cmd.Stdout = out
+
+	return cmd.Run()
 }
 
 func (self *Mysql) ApplyDump(path string) error {
