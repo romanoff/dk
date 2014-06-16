@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"github.com/BurntSushi/toml"
 	"github.com/romanoff/dk/source"
+	"github.com/romanoff/dk/remote"
 	"io/ioutil"
 	"os"
 )
@@ -17,6 +18,7 @@ func CreateConfig(options map[string]string) {
 
 type Config struct {
 	Sources map[string]source.Config
+	Remotes map[string]remote.Config
 }
 
 func ReadConfig(path string) (*Config, error) {
