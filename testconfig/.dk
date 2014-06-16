@@ -1,0 +1,10 @@
+[sources]
+  [sources.database]
+  type="mysql"
+  name="root"
+  password="qwerty5A"
+  host="localhost"
+  database="canvas_production"
+  [sources.tempdir]
+  type="fs"
+  paths=["/home/andrey/Programming/dktmp"]

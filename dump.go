@@ -11,7 +11,8 @@ import (
 
 var sourceRegistry map[string]Source = map[string]Source{
 	"mysql": &source.Mysql{},
-	"fs": &source.Fs{},
+	"fs":    &source.Fs{},
+	"mongo": &source.Mongo{},
 }
 
 func CreateDump(options map[string]string) {
@@ -24,7 +25,7 @@ func CreateDump(options map[string]string) {
 	perm := os.FileMode(0777)
 	// TODO: Check if specified bundle has already been created
 	for sourceName, conf := range config.Sources {
-		source := sourceRegistry[sourceName]
+		source := sourceRegistry[conf.Type]
 		if source != nil {
 			path := fmt.Sprintf(".dklocal/%v/%v", name, sourceName)
 			os.MkdirAll(path, perm)
@@ -59,7 +60,7 @@ func ApplyDump(options map[string]string) {
 	CheckConfig()
 	UnarchiveBundle(name, func() {
 		for sourceName, conf := range config.Sources {
-			source := sourceRegistry[sourceName]
+			source := sourceRegistry[conf.Type]
 			if source != nil {
 				path := fmt.Sprintf(".dklocal/%v/%v", name, sourceName)
 				// TODO: Check if this path exists

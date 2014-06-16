@@ -15,7 +15,7 @@ type Source interface {
 var config *Config
 
 func main() {
-	config, _ = ReadConfig()
+	config, _ = ReadConfig(".")
 	fh := gofh.Init()
 	fh.HandleCommand("init :source", CreateConfig)
 	fh.HandleCommand("create :name", CreateDump)

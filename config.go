@@ -19,9 +19,9 @@ type Config struct {
 	Sources map[string]source.Config
 }
 
-func ReadConfig() (*Config, error) {
+func ReadConfig(path string) (*Config, error) {
 	conf := &Config{}
-	content, err := ioutil.ReadFile(".dk")
+	content, err := ioutil.ReadFile(path + "/.dk")
 	if err != nil {
 		return nil, errors.New(fmt.Sprintf("Error while reading .dk configuration: %v", err))
 	}
