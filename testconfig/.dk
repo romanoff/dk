@@ -8,3 +8,7 @@
   [sources.tempdir]
   type="fs"
   paths=["/home/andrey/Programming/dktmp"]
+[remotes]
+  [remotes.origin]
+  type="fs"
+  path="/home/andrey/Programming/tmp"

@@ -4,8 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"github.com/BurntSushi/toml"
-	"github.com/romanoff/dk/source"
 	"github.com/romanoff/dk/remote"
+	"github.com/romanoff/dk/source"
 	"io/ioutil"
 	"os"
 )

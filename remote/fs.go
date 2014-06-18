@@ -7,7 +7,11 @@ import (
 )
 
 type Fs struct {
-	Root string // root path
+	Path string // root path
+}
+
+func (self *Fs) Setup(config *Config) {
+	self.Path = config.Path
 }
 
 func (self *Fs) Push(filepath, destination string) error {
@@ -16,7 +20,7 @@ func (self *Fs) Push(filepath, destination string) error {
 		return err
 	}
 	defer sourceFile.Close()
-	destinationFile, err := os.Create(self.Root + "/" + destination)
+	destinationFile, err := os.Create(self.Path + "/" + destination)
 	if err != nil {
 		return err
 	}
@@ -28,7 +32,7 @@ func (self *Fs) Push(filepath, destination string) error {
 }
 
 func (self *Fs) Pull(filepath, destination string) error {
-	sourceFile, err := os.Open(self.Root + "/" + filepath)
+	sourceFile, err := os.Open(self.Path + "/" + filepath)
 	if err != nil {
 		return err
 	}
@@ -45,9 +49,9 @@ func (self *Fs) Pull(filepath, destination string) error {
 	return nil
 }
 
-func (self *Fs) FileList() ([]string, error) {
+func (self *Fs) FilesList() ([]string, error) {
 	filesList := []string{}
-	files, err := ioutil.ReadDir(self.Root)
+	files, err := ioutil.ReadDir(self.Path)
 	if err != nil {
 		return nil, err
 	}
