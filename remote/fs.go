@@ -1,9 +1,9 @@
 package remote
 
 import (
+	"io"
 	"io/ioutil"
 	"os"
-	"io"
 )
 
 type Fs struct {
@@ -46,7 +46,6 @@ func (self *Fs) Pull(filepath, destination string) error {
 		return err
 	}
 	return destinationFile.Close()
-	return nil
 }
 
 func (self *Fs) FilesList() ([]string, error) {

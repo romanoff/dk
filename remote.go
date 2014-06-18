@@ -71,6 +71,7 @@ func ListRemoteDumps(options map[string]string) {
 
 var remoteRegistry map[string]remote.Remote = map[string]remote.Remote{
 	"fs": &remote.Fs{},
+	"s3": &remote.S3{},
 }
 
 func GetRemote(name string) (remote.Remote, error) {
