@@ -17,8 +17,8 @@ type S3 struct {
 
 func (self *S3) Setup(config *Config) {
 	self.Bucket = config.Bucket
-	self.AccessKey = config.AccessKey
-	self.SecretKey = config.SecretKey
+	self.AccessKey = config.Access_Key
+	self.SecretKey = config.Secret_Key
 }
 
 func (self *S3) getBucket() *s3.Bucket {
@@ -26,8 +26,8 @@ func (self *S3) getBucket() *s3.Bucket {
 		AccessKey: self.AccessKey,
 		SecretKey: self.SecretKey,
 	}
-	euwest := aws.EUWest
-	connection := s3.New(auth, euwest)
+	useast := aws.USEast
+	connection := s3.New(auth, useast)
 	return connection.Bucket(self.Bucket)
 }
 

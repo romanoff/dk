@@ -4,6 +4,6 @@ type Config struct {
 	Type      string
 	Path      string
 	Bucket    string
-	AccessKey string
-	SecretKey string
+	Access_Key string
+	Secret_Key string
 }
