@@ -42,9 +42,14 @@ func CreateDump(options map[string]string) {
 }
 
 func ArchiveBundle(name string) {
-	cmd := exec.Command("tar", "--remove-files", "-cjf", name+".tar.bz2", name)
+	cmd := exec.Command("tar", "-cjf", name+".tar.bz2", name)
 	cmd.Dir = ".dklocal"
 	err := cmd.Run()
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	err = os.RemoveAll(".dklocal/" + name)
 	if err != nil {
 		fmt.Println(err)
 		os.Exit(1)
