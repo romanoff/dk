@@ -26,5 +26,6 @@ func main() {
 	fh.HandleCommand("push :remote :name", PushDump)
 	fh.HandleCommand("pull :remote :name", PullDump)
 	fh.HandleCommand("rm :remote :name", RemoveRemoteDump)
+	fh.SetDefaultHandler(ShowUsage)
 	fh.Parse(os.Args[1:])
 }
