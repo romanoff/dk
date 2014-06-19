@@ -13,12 +13,14 @@ type S3 struct {
 	Bucket    string
 	AccessKey string
 	SecretKey string
+	Region    string
 }
 
 func (self *S3) Setup(config *Config) {
 	self.Bucket = config.Bucket
 	self.AccessKey = config.Access_Key
 	self.SecretKey = config.Secret_Key
+	self.Region = config.Region
 }
 
 func (self *S3) getBucket() *s3.Bucket {
@@ -26,8 +28,8 @@ func (self *S3) getBucket() *s3.Bucket {
 		AccessKey: self.AccessKey,
 		SecretKey: self.SecretKey,
 	}
-	useast := aws.USEast
-	connection := s3.New(auth, useast)
+	region := aws.Regions[self.Region]
+	connection := s3.New(auth, region)
 	return connection.Bucket(self.Bucket)
 }
 
@@ -69,4 +71,9 @@ func (self *S3) Pull(filepath, destination string) error {
 		return err
 	}
 	return destinationFile.Close()
+}
+
+func (self *S3) Remove(filepath string) error {
+	bucket := self.getBucket()
+	return bucket.Del(filepath)
 }

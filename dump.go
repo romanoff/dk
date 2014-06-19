@@ -100,3 +100,17 @@ func ListDumps(options map[string]string) {
 		}
 	}
 }
+
+func RemoveDump(options map[string]string) {
+	name := options["name"]
+	if name == "" {
+		ShowUsage()
+		return
+	}
+	filepath := ".dklocal/" + name + ".tar.bz2"
+	err := os.Remove(filepath)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+}

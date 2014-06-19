@@ -69,6 +69,23 @@ func ListRemoteDumps(options map[string]string) {
 	}
 }
 
+func RemoveRemoteDump(options map[string]string) {
+	remoteName := options["remote"]
+	r, err := GetRemote(remoteName)
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	if r == nil {
+		fmt.Printf("No remote with '%v' name found\n", remoteName)
+	}
+	dumpName := options["name"] + ".tar.bz2"
+	err = r.Remove(dumpName)
+	if err != nil {
+		fmt.Println(err)
+	}
+}
+
 var remoteRegistry map[string]remote.Remote = map[string]remote.Remote{
 	"fs": &remote.Fs{},
 	"s3": &remote.S3{},

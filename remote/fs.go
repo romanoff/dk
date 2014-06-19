@@ -59,3 +59,8 @@ func (self *Fs) FilesList() ([]string, error) {
 	}
 	return filesList, nil
 }
+
+func (self *Fs) Remove(filepath string) error {
+	fullpath := self.Path + "/" + filepath
+	return os.Remove(fullpath)
+}
