@@ -10,9 +10,10 @@ import (
 )
 
 var sourceRegistry map[string]Source = map[string]Source{
-	"mysql": &source.Mysql{},
-	"fs":    &source.Fs{},
-	"mongo": &source.Mongo{},
+	"mysql":    &source.Mysql{},
+	"fs":       &source.Fs{},
+	"mongo":    &source.Mongo{},
+	"postgres": &source.Postgres{},
 }
 
 func CreateDump(options map[string]string) {

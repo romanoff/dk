@@ -6,5 +6,6 @@ type Config struct {
 	Password string
 	Host     string
 	Database string
+	Port     string
 	Paths    []string
 }

@@ -14,6 +14,6 @@ dk pull :remote :bundlename - Pulls bundle from remotes source locally. Name of 
   bundle will be "<remote source name>|<bundle name>"
 dk push :remote :bundlename - Pushes bundle ot remote (normal way to share bundles)
 dk rm :bundlename - Removes local bundle
-dk rm :remote :bundlename - Removes bundle from remote source`	
+dk rm :remote :bundlename - Removes bundle from remote source`
 	fmt.Println(usage)
 }
