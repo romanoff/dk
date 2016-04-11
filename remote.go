@@ -39,7 +39,7 @@ func PullDump(options map[string]string) {
 		fmt.Printf("No remote with '%v' name found\n", remoteName)
 	}
 	dumpName := options["name"]
-	dumpPath := "./.dklocal/" + remoteName + "|" + dumpName + ".tar.bz2"
+	dumpPath := "./.dklocal/" + dumpName + ".tar.bz2"
 	err = r.Pull(dumpName+".tar.bz2", dumpPath)
 	if err != nil {
 		fmt.Println(err)
