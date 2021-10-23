@@ -8,4 +8,5 @@ type Config struct {
 	Database string
 	Port     string
 	Paths    []string
+	Plain    bool
 }

@@ -14,6 +14,7 @@ type Postgres struct {
 	Host     string
 	Database string
 	Port     string
+	Plain    bool
 }
 
 func (self *Postgres) Setup(config *Config) {
@@ -22,6 +23,7 @@ func (self *Postgres) Setup(config *Config) {
 	self.Host = config.Host
 	self.Port = config.Port
 	self.Database = config.Database
+	self.Plain = config.Plain
 }
 
 func (self *Postgres) CreateDump(dumpDir string) error {
