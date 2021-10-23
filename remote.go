@@ -87,8 +87,9 @@ func RemoveRemoteDump(options map[string]string) {
 }
 
 var remoteRegistry map[string]remote.Remote = map[string]remote.Remote{
-	"fs": &remote.Fs{},
-	"s3": &remote.S3{},
+	"fs":  &remote.Fs{},
+	"s3":  &remote.S3{},
+	"scp": &remote.Scp{},
 }
 
 func GetRemote(name string) (remote.Remote, error) {
